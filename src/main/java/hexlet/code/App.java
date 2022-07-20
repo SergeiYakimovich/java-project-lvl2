@@ -5,6 +5,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.text.Format;
 import java.util.concurrent.Callable;
+import hexlet.code.Differ;
 
 import static java.nio.file.Files.readString;
 
@@ -33,11 +34,14 @@ class App implements Callable<String> {
         int exitCode = new CommandLine(app).execute(args);
         //System.exit(exitCode);
 
+        if (app.filepath1 == null) {
+            return;
+        }
+
         String str1 = readString(app.filepath1);
         System.out.println(str1);
         String str2 = readString(app.filepath2);
         System.out.println(str2);
-        System.out.println("OK");
         String result = Differ.generate(str1, str2);
         System.out.println(result);
 
