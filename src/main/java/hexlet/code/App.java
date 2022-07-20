@@ -21,7 +21,7 @@ class App implements Callable<String> {
     private Format format /*= Format.LONG*/;
     @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "Show this help message and exit.")
     private boolean helpRequested = false;
-    @CommandLine.Option(names={"-V", "--version"}, description="Print version information and exit.")
+    @CommandLine.Option(names = {"-V", "--version"}, description = "Print version information and exit.")
     private boolean verbose;
 
     @Override

@@ -12,9 +12,9 @@ public class Differ {
 
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> data1
-                = mapper.readValue(str1, new TypeReference<Map<String,Object>>(){});
+                = mapper.readValue(str1, new TypeReference<Map<String, Object>>() { });
         Map<String, Object> data2
-                = mapper.readValue(str2, new TypeReference<Map<String,Object>>(){});
+                = mapper.readValue(str2, new TypeReference<Map<String, Object>>() { });
 
         List<Map<String, Object>> result = new ArrayList<>();
 
@@ -37,17 +37,16 @@ public class Differ {
                 }
             }
         }
-            result = result.stream()
-                    .sorted((item1, item2) ->
-                        item1.get("key").toString().compareTo(item2.get("key").toString()))
-                    .collect(Collectors.toList());
+        result = result.stream()
+                .sorted((item1, item2) -> item1.get("key").toString().compareTo(item2.get("key").toString()))
+                .collect(Collectors.toList());
 
-            String resultStr = "{\n";
-            for (Map<String, Object> item : result) {
-                resultStr = resultStr + item.get("res") + " " + item.get("key") + " " + item.get("value") + "\n";
-            }
+        String resultStr = "{\n";
+        for (Map<String, Object> item : result) {
+            resultStr = resultStr + "  " + item.get("res") + " " + item.get("key") + ": " + item.get("value") + "\n";
+        }
 
-            return resultStr + "}";
+        return resultStr + "}";
     }
 
 }
