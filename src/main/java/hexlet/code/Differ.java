@@ -7,14 +7,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Differ {
+    public static String generate(String str1, String str2, int type) throws Exception {
 
-    public static String generate(String str1, String str2) throws Exception {
-
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> data1
-                = mapper.readValue(str1, new TypeReference<Map<String, Object>>() { });
-        Map<String, Object> data2
-                = mapper.readValue(str2, new TypeReference<Map<String, Object>>() { });
+        Map<String, Object> data1 = Parser.getMap(str1, type);
+        Map<String, Object> data2 = Parser.getMap(str2, type);
 
         List<Map<String, Object>> result = new ArrayList<>();
 

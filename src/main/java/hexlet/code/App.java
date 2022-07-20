@@ -34,17 +34,29 @@ class App implements Callable<String> {
         int exitCode = new CommandLine(app).execute(args);
         //System.exit(exitCode);
 
-        if (app.filepath1 == null) {
+        if (app.filepath1 == null || app.filepath2 == null) {
             return;
         }
 
         String str1 = readString(app.filepath1);
+        System.out.println("file " + app.filepath1.toString());
         System.out.println(str1);
         String str2 = readString(app.filepath2);
+        System.out.println("file " + app.filepath2.toString());
         System.out.println(str2);
-        String result = Differ.generate(str1, str2);
-        System.out.println(result);
 
+        int type = 0;
+        if (app.filepath1.toString().endsWith(".json") && app.filepath2.toString().endsWith(".json"))  {
+            type = Parser.JSON_TYPE;
+        } else {
+            if (app.filepath1.toString().endsWith(".yml") && app.filepath2.toString().endsWith(".yml")) {
+                type = Parser.YAML_TYPE;
+            }
+        }
+
+        String result = Differ.generate(str1, str2, type);
+        System.out.println("result :");
+        System.out.println(result);
 
     }
 
