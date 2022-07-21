@@ -1,16 +1,25 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Formatter {
-     public static String format(List<Map<String, Object>> list, App.Format type) {
+     public static String format(List<Map<String, Object>> list, App.Format type) throws Exception {
         if (type == App.Format.plain) {
             return plain(list);
+        } else if (type == App.Format.json) {
+            return json(list);
         } else {
             return stylish(list);
         }
+    }
+
+    public static String json (List<Map<String, Object>> list) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(list);
     }
     public static String stylish (List<Map<String, Object>> list) {
         String resultStr = "{\n";

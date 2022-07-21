@@ -1,44 +1,18 @@
 package hexlet.code;
 
 import org.junit.jupiter.api.Test;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import static org.assertj.core.api.Assertions.assertThat;
 public class TestDiffer {
 
     @Test
-    public void testGenerateJson() throws Exception {
-        var strJson1 = "{\n" +
-                "  \"setting1\": \"Some value\",\n" +
-                "  \"setting2\": 200,\n" +
-                "  \"setting3\": true,\n" +
-                "  \"key1\": \"value1\",\n" +
-                "  \"numbers1\": [1, 2, 3, 4],\n" +
-                "  \"numbers2\": [2, 3, 4, 5],\n" +
-                "  \"id\": 45,\n" +
-                "  \"default\": null,\n" +
-                "  \"checked\": false,\n" +
-                "  \"numbers3\": [3, 4, 5],\n" +
-                "  \"chars1\": [\"a\", \"b\", \"c\"],\n" +
-                "  \"chars2\": [\"d\", \"e\", \"f\"]\n" +
-                "}";
-        var strJson2 = "{\n" +
-                "  \"setting1\": \"Another value\",\n" +
-                "  \"setting2\": 300,\n" +
-                "  \"setting3\": \"none\",\n" +
-                "  \"key2\": \"value2\",\n" +
-                "  \"numbers1\": [1, 2, 3, 4],\n" +
-                "  \"numbers2\": [22, 33, 44, 55],\n" +
-                "  \"id\": null,\n" +
-                "  \"default\": [\"value1\", \"value2\"],\n" +
-                "  \"checked\": true,\n" +
-                "  \"numbers4\": [4, 5, 6],\n" +
-                "  \"chars1\": [\"a\", \"b\", \"c\"],\n" +
-                "  \"chars2\": false,\n" +
-                "  \"obj1\": {\n" +
-                "    \"nestedKey\": \"value\",\n" +
-                "    \"isNested\": true\n" +
-                "  }\n" +
-                "}";
-        var result = Differ.generate(strJson1, strJson2, Parser.JSON_TYPE);
+    public void testGenerateJsonFileToStylish() throws Exception {
+        Path file1 = Paths.get("file1_2.json");
+        Path file2 = Paths.get("file2_2.json");
+        var result = Differ.generate(file1, file2, App.Format.stylish);
         var expected = "{\n" +
                 "    chars1: [a, b, c]\n" +
                 "  - chars2: [d, e, f]\n" +
@@ -68,15 +42,30 @@ public class TestDiffer {
     }
 
     @Test
-    public void testGenerateYaml() throws Exception {
-        var strYaml1 = "\"host\": \"hexlet.io\"\n" +
-                "\"timeout\": 50\n" +
-                "\"proxy\": \"123.234.53.22\"\n" +
-                "\"follow\": false";
-        var strYaml2 = "\"timeout\": 20\n" +
-                "\"verbose\": true\n" +
-                "\"host\": \"hexlet.io\"";
-        var result = Differ.generate(strYaml1, strYaml2, Parser.YAML_TYPE);
+    public void testGenerateJsonFileToPlain() throws Exception {
+        Path file1 = Paths.get("file1_2.json");
+        Path file2 = Paths.get("file2_2.json");
+        var result = Differ.generate(file1, file2, App.Format.plain);
+        var expected = "Property 'chars2' was updated. From [complex value] to false\n" +
+                "Property 'checked' was updated. From false to true\n" +
+                "Property 'default' was updated. From null to [complex value]\n" +
+                "Property 'id' was updated. From 45 to null\n" +
+                "Property 'key1' was removed\n" +
+                "Property 'key2' was added with value: 'value2'\n" +
+                "Property 'numbers2' was updated. From [complex value] to [complex value]\n" +
+                "Property 'numbers3' was removed\n" +
+                "Property 'numbers4' was added with value: [complex value]\n" +
+                "Property 'obj1' was added with value: [complex value]\n" +
+                "Property 'setting1' was updated. From 'Some value' to 'Another value'\n" +
+                "Property 'setting2' was updated. From 200 to 300\n" +
+                "Property 'setting3' was updated. From true to 'none'";
+        assertThat(result).isEqualTo(expected);
+    }
+    @Test
+    public void testGenerateYamlFileToStylish() throws Exception {
+        Path file1 = Paths.get("file1_1.yml");
+        Path file2 = Paths.get("file2_1.yml");
+        var result = Differ.generate(file1, file2, App.Format.stylish);
         var expected = "{\n" +
                 "  - follow: false\n" +
                 "    host: hexlet.io\n" +

@@ -24,7 +24,7 @@ public class Parser {
             ObjectMapper mapper1 = new ObjectMapper();
             result = mapper1.readValue(str, new TypeReference<Map<String, Object>>() { });
         } else {
-            if (filepath.toString().endsWith(".yml") && filepath.toString().endsWith(".yaml")) {
+            if (filepath.toString().endsWith(".yml") || filepath.toString().endsWith(".yaml")) {
                 YAMLMapper mapper2 = new YAMLMapper();
                 result = mapper2.readValue(str, new TypeReference<Map<String, Object>>() { });
             }

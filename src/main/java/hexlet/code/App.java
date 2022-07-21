@@ -25,6 +25,7 @@ class App implements Callable<String> {
     enum Format {
         stylish,
         plain,
+        json,
     }
     @Override
     public String call() throws Exception {
