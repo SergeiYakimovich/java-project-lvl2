@@ -24,6 +24,7 @@ class App implements Callable<String> {
 
     enum Format {
         stylish,
+        plain,
     }
     @Override
     public String call() throws Exception {
@@ -39,23 +40,7 @@ class App implements Callable<String> {
             return;
         }
 
-        String str1 = readString(app.filepath1);
-        System.out.println("file " + app.filepath1.toString());
-        System.out.println(str1);
-        String str2 = readString(app.filepath2);
-        System.out.println("file " + app.filepath2.toString());
-        System.out.println(str2);
-
-        int type = 0;
-        if (app.filepath1.toString().endsWith(".json") && app.filepath2.toString().endsWith(".json"))  {
-            type = Parser.JSON_TYPE;
-        } else {
-            if (app.filepath1.toString().endsWith(".yml") && app.filepath2.toString().endsWith(".yml")) {
-                type = Parser.YAML_TYPE;
-            }
-        }
-
-        String result = Differ.generate(str1, str2, type);
+        String result = Differ.generate(app.filepath1, app.filepath2, app.format);
         System.out.println("result :");
         System.out.println(result);
 
