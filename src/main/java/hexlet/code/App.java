@@ -1,11 +1,9 @@
 package hexlet.code;
 
 import picocli.CommandLine;
-import java.io.File;
 import java.nio.file.Path;
 import java.text.Format;
 import java.util.concurrent.Callable;
-import hexlet.code.Differ;
 
 import static java.nio.file.Files.readString;
 
@@ -17,13 +15,16 @@ class App implements Callable<String> {
     @CommandLine.Parameters(index = "1", description = "path to second file")
     private Path filepath2;
 
-    @CommandLine.Option(names = { "-f", "--format" }, description = "output format [default: stylish]")
-    private Format format /*= Format.LONG*/;
+    @CommandLine.Option(names = { "-f", "--format" }, defaultValue = "stylish" ,description = "output format [default: ${DEFAULT-VALUE}]")
+    private Format format = Format.stylish;
     @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "Show this help message and exit.")
     private boolean helpRequested = false;
     @CommandLine.Option(names = {"-V", "--version"}, description = "Print version information and exit.")
     private boolean verbose;
 
+    enum Format {
+        stylish,
+    }
     @Override
     public String call() throws Exception {
         return "";
