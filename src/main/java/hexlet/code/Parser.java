@@ -11,14 +11,13 @@ import java.util.Map;
 import static java.nio.file.Files.readString;
 
 public class Parser {
-//    public static final int JSON_TYPE = 1;
-//    public static final int YAML_TYPE = 2;
+
     public static Map<String, Object> getMap(Path filepath) throws Exception {
 
+        // считываем строку из файла
         String str = readString(filepath);
-        System.out.println("file " + filepath.toString());
-        System.out.println(str);
 
+        // преобразуем в мапу в зависимости от типа файла
         Map<String, Object> result = new HashMap<>();
         if (filepath.toString().endsWith(".json"))  {
             ObjectMapper mapper1 = new ObjectMapper();
@@ -30,6 +29,7 @@ public class Parser {
             }
         }
 
+        // заменяем null строкой для сравнений
         for (Map.Entry<String, Object> item: result.entrySet()) {
             if (item.getValue() == null) {
                 item.setValue("null");

@@ -5,8 +5,6 @@ import java.nio.file.Path;
 import java.text.Format;
 import java.util.concurrent.Callable;
 
-import static java.nio.file.Files.readString;
-
 @CommandLine.Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
         description = "Compares two configuration files and shows a difference.")
 class App implements Callable<String> {
@@ -15,12 +13,15 @@ class App implements Callable<String> {
     @CommandLine.Parameters(index = "1", description = "path to second file")
     private Path filepath2;
 
-    @CommandLine.Option(names = { "-f", "--format" }, defaultValue = "stylish" ,description = "output format [default: ${DEFAULT-VALUE}]")
+    @CommandLine.Option(names = { "-f", "--format" }, defaultValue = "stylish",
+            description = "output format [default: ${DEFAULT-VALUE}]")
     private Format format = Format.stylish;
-    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "Show this help message and exit.")
+    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true,
+            description = "Show this help message and exit.")
     private boolean helpRequested = false;
-    @CommandLine.Option(names = {"-V", "--version"}, description = "Print version information and exit.")
-    private boolean verbose;
+    @CommandLine.Option(names = {"-V", "--version"}, versionHelp = true,
+            description = "Print version information and exit.")
+    private boolean versionHelpRequested;
 
     enum Format {
         stylish,
@@ -35,7 +36,6 @@ class App implements Callable<String> {
 
         App app = new App();
         int exitCode = new CommandLine(app).execute(args);
-        //System.exit(exitCode);
 
         if (app.filepath1 == null || app.filepath2 == null) {
             return;
