@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
-import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,10 +12,10 @@ import static java.nio.file.Files.readString;
 
 public class Parser {
 
-    public static Map<String, Object> getMap(Path filepath) throws Exception {
+    public static Map<String, Object> getMap(String filepath) throws Exception {
 
         // считываем строку из файла
-        String str = readString(filepath);
+        String str = readString(Paths.get(filepath));
 
         // преобразуем в мапу в зависимости от типа файла
         Map<String, Object> result = new HashMap<>();

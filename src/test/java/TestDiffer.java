@@ -2,16 +2,13 @@ package hexlet.code;
 
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import static org.assertj.core.api.Assertions.assertThat;
 public class TestDiffer {
 
     @Test
     public void testGenerateJsonFileToStylish() throws Exception {
-        Path file1 = Paths.get("src/test/resources/file1_v2.json");
-        Path file2 = Paths.get("src/test/resources/file2_v2.json");
+        String file1 = "src/test/resources/file1_v2.json";
+        String file2 = "src/test/resources/file2_v2.json";
         String result = Differ.generate(file1, file2, App.Format.stylish);
         String expected = "{\n" + "    chars1: [a, b, c]\n" + "  - chars2: [d, e, f]\n" + "  + chars2: false\n"
                 + "  - checked: false\n" + "  + checked: true\n" + "  - default: null\n"
@@ -26,8 +23,8 @@ public class TestDiffer {
 
     @Test
     public void testGenerateJsonFileToPlain() throws Exception {
-        Path file1 = Paths.get("src/test/resources/file1_v2.json");
-        Path file2 = Paths.get("src/test/resources/file2_v2.json");
+        String file1 = "src/test/resources/file1_v2.json";
+        String file2 = "src/test/resources/file2_v2.json";
         var result = Differ.generate(file1, file2, App.Format.plain);
         var expected = "Property 'chars2' was updated. From [complex value] to false\n"
                 + "Property 'checked' was updated. From false to true\n"
@@ -47,8 +44,8 @@ public class TestDiffer {
 
     @Test
     public void testGenerateJsonFileToJson() throws Exception {
-        Path file1 = Paths.get("src/test/resources/file1_v2.json");
-        Path file2 = Paths.get("src/test/resources/file2_v2.json");
+        String file1 = "src/test/resources/file1_v2.json";
+        String file2 = "src/test/resources/file2_v2.json";
         var result = Differ.generate(file1, file2, App.Format.json);
         var expected = "[{\"key\":\"chars1\",\"res\":\" \",\"value\":[\"a\",\"b\",\"c\"]},{\"key\":\"chars2\","
                 + "\"res\":\"-\",\"value\":[\"d\",\"e\",\"f\"]},{\"key\":\"chars2\",\"res\":\"+\",\"value\":false},"
@@ -69,8 +66,8 @@ public class TestDiffer {
     }
     @Test
     public void testGenerateYamlFileToStylish() throws Exception {
-        Path file1 = Paths.get("src/test/resources/file1_v1.yml");
-        Path file2 = Paths.get("src/test/resources/file2_v1.yml");
+        String file1 = "src/test/resources/file1_v1.yml";
+        String file2 = "src/test/resources/file2_v1.yml";
         var result = Differ.generate(file1, file2, App.Format.stylish);
         var expected = "{\n" + "  - follow: false\n" + "    host: hexlet.io\n" + "  - proxy: 123.234.53.22\n"
                 + "  - timeout: 50\n" + "  + timeout: 20\n" + "  + verbose: true\n" + "}";

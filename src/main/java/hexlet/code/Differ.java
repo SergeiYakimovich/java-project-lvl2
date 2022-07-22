@@ -1,6 +1,5 @@
 package hexlet.code;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 public class Differ {
-    public static String generate(Path filepath1, Path filepath2, App.Format type) throws Exception {
+    public static String generate(String filepath1, String filepath2, App.Format type) throws Exception {
 
         // считаваем данные из файлов и преобразуем в мапы
         Map<String, Object> data1 = Parser.getMap(filepath1);
@@ -44,7 +43,7 @@ public class Differ {
         return Formatter.format(result, type);
     }
 
-    public static String generate(Path filepath1, Path filepath2) throws Exception { // метод без указания формата
+    public static String generate(String filepath1, String filepath2) throws Exception { // метод без указания формата
         return generate(filepath1, filepath2, App.Format.stylish);
     }
 
