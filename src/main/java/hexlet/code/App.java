@@ -42,8 +42,7 @@ class App implements Callable<String> {
         }
 
         String result = Differ.generate(app.filepath1.toString(), app.filepath2.toString(), app.format.toString());
-//        System.out.println("result :");
-//        System.out.println(result);
+        System.out.println(result);
 
     }
 
