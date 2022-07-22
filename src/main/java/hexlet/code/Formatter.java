@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Formatter {
-    public static String format(List<Map<String, Object>> list, App.Format type) throws Exception {
+    public static String format(List<Map<String, Object>> list, String type) throws Exception {
         // преобразуем список в строку нужного типа
-        if (type == App.Format.plain) {
+        if (type.equals("plain")) {
             return plain(list);
-        } else if (type == App.Format.json) {
+        } else if (type.equals("json")) {
             return json(list);
         } else {
             return stylish(list);

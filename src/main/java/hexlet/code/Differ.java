@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 public class Differ {
-    public static String generate(String filepath1, String filepath2, App.Format type) throws Exception {
+    public static String generate(String filepath1, String filepath2, String typeStr) throws Exception {
 
         // считаваем данные из файлов и преобразуем в мапы
         Map<String, Object> data1 = Parser.getMap(filepath1);
@@ -40,11 +40,11 @@ public class Differ {
                 .collect(Collectors.toList());
 
         // преобразуем в строку нужного формата
-        return Formatter.format(result, type);
+        return Formatter.format(result, typeStr);
     }
 
     public static String generate(String filepath1, String filepath2) throws Exception { // метод без указания формата
-        return generate(filepath1, filepath2, App.Format.stylish);
+        return generate(filepath1, filepath2, "stylish");
     }
 
 }
