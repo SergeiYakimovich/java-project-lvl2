@@ -2,7 +2,6 @@ package hexlet.code;
 
 import picocli.CommandLine;
 import java.nio.file.Path;
-import java.text.Format;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
