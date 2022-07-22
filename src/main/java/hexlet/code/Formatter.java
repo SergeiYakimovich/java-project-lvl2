@@ -1,6 +1,8 @@
 package hexlet.code;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationConfig;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +10,8 @@ import java.util.Map;
 
 public class Formatter {
      public static String format(List<Map<String, Object>> list, App.Format type) throws Exception {
-        if (type == App.Format.plain) {
+        System.out.println(type);
+         if (type == App.Format.plain) {
             return plain(list);
         } else if (type == App.Format.json) {
             return json(list);
@@ -19,6 +22,7 @@ public class Formatter {
 
     public static String json (List<Map<String, Object>> list) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS, true);
         return mapper.writeValueAsString(list);
     }
     public static String stylish (List<Map<String, Object>> list) {
@@ -49,10 +53,16 @@ public class Formatter {
                 i++;
             }
         }
-        return resultStr;
+        return resultStr.substring(0, resultStr.length() - 1);
     }
     public static String modifyValue (Object o) {
-        if((o instanceof Integer) ||  (o instanceof String) || (o instanceof Boolean)) {
+         if(o instanceof String) {
+             if (o.equals("null")) {
+                 return o.toString();
+             } else {
+                 return "'" + o + "'";
+             }
+        } else if((o instanceof Integer) || (o instanceof Boolean)) {
             return o.toString();
         } else {
             return "[complex value]";
