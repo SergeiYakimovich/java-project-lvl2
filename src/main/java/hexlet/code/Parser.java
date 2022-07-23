@@ -29,7 +29,7 @@ public class Parser {
             }
         }
 
-        // заменяем null строкой для сравнений
+        // заменяем null строкой для последующих сравнений
         for (Map.Entry<String, Object> item: result.entrySet()) {
             if (item.getValue() == null) {
                 item.setValue("null");

@@ -6,6 +6,7 @@ import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
         description = "Compares two configuration files and shows a difference.")
+
 class App implements Callable<String> {
     @CommandLine.Parameters(index = "0", description = "path to first file")
     private Path filepath1;
