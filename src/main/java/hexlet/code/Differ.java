@@ -44,55 +44,36 @@ public class Differ {
         keys.addAll(data2.keySet());
         for (String key: keys) {
             if (!data1.containsKey(key)) {
-                current = new HashMap<>();
-                current.put("key", key);
-                current.put("value", data2.get(key));
-                current.put("res", "+");
-                result.add(current);
+                if (data2.get(key) == null) {
+                    result.add(Map.of("key", key, "res", "+"));
+                } else {
+                    result.add(Map.of("key", key, "value", data2.get(key), "res", "+"));
+                }
             } else {
                 if (!data2.containsKey(key)) {
-                    current = new HashMap<>();
-                    current.put("key", key);
-                    current.put("value", data1.get(key));
-                    current.put("res", "-");
-                    result.add(current);
-                    //result.add(Map.of("key", key, "value", data1.get(key), "res", "-"));
+                    if (data1.get(key) == null) {
+                        result.add(Map.of("key", key, "res", "-"));
+                    } else {
+                        result.add(Map.of("key", key, "value", data1.get(key), "res", "-"));
+                    }
                 } else {
                     if ((data2.get(key) != null) && (data1.get(key) != null)) {
                         if (data2.get(key).equals(data1.get(key))) {
-                            current = new HashMap<>();
-                            current.put("key", key);
-                            current.put("value", data1.get(key));
-                            current.put("res", " ");
-                            result.add(current);
-                            //result.add(Map.of("key", key, "value", data1.get(key), "res", " "));
+                            result.add(Map.of("key", key, "value", data1.get(key), "res", " "));
                         } else {
-                            current = new HashMap<>();
-                            current.put("key", key);
-                            current.put("value", data1.get(key));
-                            current.put("res", "-+");
-                            current.put("value2", data2.get(key));
-                            result.add(current);
-                            //result.add(Map.of("key", key, "value", data1.get(key), "res", "-+", "value2",
-                            // data2.get(key)));
+                            result.add(Map.of("key", key, "value", data1.get(key), "res", "-+",
+                                    "value2", data2.get(key)));
                         }
                     } else {
                         if ((data2.get(key) == null) && (data1.get(key) == null)) {
-                            current = new HashMap<>();
-                            current.put("key", key);
-                            current.put("value", data1.get(key));
-                            current.put("res", " ");
-                            result.add(current);
-                            //result.add(Map.of("key", key, "value", data1.get(key), "res", " "));
+                            result.add(Map.of("key", key, "res", " "));
                         } else {
-                            current = new HashMap<>();
-                            current.put("key", key);
-                            current.put("value", data1.get(key));
-                            current.put("res", "-+");
-                            current.put("value2", data2.get(key));
-                            result.add(current);
-                            //result.add(Map.of("key", key, "value", data1.get(key), "res", "-+",
-                            // "value2", data2.get(key)));
+                            if (data1.get(key) == null) {
+                                result.add(Map.of("key", key, "res", "-+", "value2", data2.get(key)));
+                            }
+                            if (data2.get(key) == null) {
+                                result.add(Map.of("key", key, "value", data1.get(key), "res", "-+"));
+                            }
                         }
                     }
                 }
