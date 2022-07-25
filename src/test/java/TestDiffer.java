@@ -62,10 +62,20 @@ public class TestDiffer {
         assertThat(result).isEqualTo(expected);
     }
     @Test
-    public void testGenerateYamlFileToStylish() throws Exception {
+    public void testGenerateYmlFileToStylish() throws Exception {
         String file1 = "src/test/resources/file1_v1.yml";
         String file2 = "src/test/resources/file2_v1.yml";
         var result = Differ.generate(file1, file2, "stylish");
+        var expected = "{\n" + "  - follow: false\n" + "    host: hexlet.io\n" + "  - proxy: 123.234.53.22\n"
+                + "  - timeout: 50\n" + "  + timeout: 20\n" + "  + verbose: true\n" + "}";
+        assertThat(result).isEqualTo(expected);
+    }
+
+    @Test
+    public void testGenerateYamlFileToDefault() throws Exception {
+        String file1 = "src/test/resources/file1_v1.yaml";
+        String file2 = "src/test/resources/file2_v1.yaml";
+        var result = Differ.generate(file1, file2);
         var expected = "{\n" + "  - follow: false\n" + "    host: hexlet.io\n" + "  - proxy: 123.234.53.22\n"
                 + "  - timeout: 50\n" + "  + timeout: 20\n" + "  + verbose: true\n" + "}";
         assertThat(result).isEqualTo(expected);
