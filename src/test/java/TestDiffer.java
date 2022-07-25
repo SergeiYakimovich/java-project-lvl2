@@ -47,21 +47,18 @@ public class TestDiffer {
         String file1 = "src/test/resources/file1_v2.json";
         String file2 = "src/test/resources/file2_v2.json";
         var result = Differ.generate(file1, file2, "json");
-        var expected = "[{\"key\":\"chars1\",\"res\":\" \",\"value\":[\"a\",\"b\",\"c\"]},{\"key\":\"chars2\","
-                + "\"res\":\"-\",\"value\":[\"d\",\"e\",\"f\"]},{\"key\":\"chars2\",\"res\":\"+\",\"value\":false},"
-                + "{\"key\"" + ":\"checked\",\"res\":\"-\",\"value\":false},{\"key\":\"checked\",\"res\":\"+\","
-                + "\"value\":true},{\"key\":\"default\",\"res\":\"-\",\"value\":\"null\"},{\"key\":\"default\",\""
-                + "res\":\"+\",\"value\":[\"value1\",\"value2\"]},{\"key\":\"id\",\"res\":\"-\",\"value\":45},{"
-                + "\"key\":\"id\",\"res\":\"+\",\"value\":\"null\"},{\"key\":\"key1\",\"res\":\"-\",\"value\":\""
-                + "value1\"},{\"key\":\"key2\",\"res\":\"+\",\"value\":\"value2\"},{\"key\":\"numbers1\",\"res\":\""
-                + " \",\"value\":[1,2,3,4]},{\"key\":\"numbers2\",\"res\":\"-\",\"value\":[2,3,4,5]},{\"key\":\""
-                + "numbers2\",\"res\":\"+\",\"value\":[22,33,44,55]},{\"key\":\"numbers3\",\"res\":\"-\",\"value\":"
-                + "[3,4,5]},{\"key\":\"numbers4\",\"res\":\"+\",\"value\":[4,5,6]},{\"key\":\"obj1\",\"res\":\"+\",\""
-                + "value\":{\"isNested\":true,\"nestedKey\":\"value\"}},{\"key\":\"setting1\",\"res\":\"-\",\""
-                + "value\":\"" + "Some value\"},{\"key\":\"setting1\",\"res\":\"+\",\"value\":\"Another value\"},"
-                + "{\"key\":\"setting2\",\"res\":\"-\",\"value\":200},{\"key\":\"setting2\",\"res\":\"+\",\""
-                + "value\":300},{\"key\":\"setting3\",\"res\":\"-\",\"value\":true},{\"key\":\"setting3\",\"res\""
-                + ":\"+\",\"value\":\"none\"}]";
+        var expected = "[{\"key\":\"chars1\",\"res\":\" \",\"value\":[\"a\",\"b\",\"c\"]},"
+                + "{\"key\":\"chars2\",\"res\":\"-+\",\"value\":[\"d\",\"e\",\"f\"],\"value2\":false},"
+                + "{\"key\":\"checked\",\"res\":\"-+\",\"value\":false,\"value2\":true},{\"key\":\"default\","
+                + "\"res\":\"-+\",\"value\":null,\"value2\":[\"value1\",\"value2\"]},{\"key\":\"id\",\"res\":\""
+                + "-+\",\"value\":45,\"value2\":null},{\"key\":\"key1\",\"res\":\"-\",\"value\":\"value1\"},"
+                + "{\"key\":\"key2\",\"res\":\"+\",\"value\":\"value2\"},{\"key\":\"numbers1\",\"res\":\" \","
+                + "\"value\":[1,2,3,4]},{\"key\":\"numbers2\",\"res\":\"-+\",\"value\":[2,3,4,5],\"value2\""
+                + ":[22,33,44,55]},{\"key\":\"numbers3\",\"res\":\"-\",\"value\":[3,4,5]},{\"key\":\"numbers4\""
+                + ",\"res\":\"+\",\"value\":[4,5,6]},{\"key\":\"obj1\",\"res\":\"+\",\"value\":{\"isNested\":"
+                + "true,\"nestedKey\":\"value\"}},{\"key\":\"setting1\",\"res\":\"-+\",\"value\":\"Some value\","
+                + "\"value2\":\"Another value\"},{\"key\":\"setting2\",\"res\":\"-+\",\"value\":200,\"value2\":"
+                + "300},{\"key\":\"setting3\",\"res\":\"-+\",\"value\":true,\"value2\":\"none\"}]";
         assertThat(result).isEqualTo(expected);
     }
     @Test
