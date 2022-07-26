@@ -15,24 +15,18 @@ import static java.nio.file.Files.readString;
 public class Differ {
 
     public static String generate(String file1, String file2, String formatType) throws Exception {
-
-        // считаваем данные из файлов и преобразуем в мапы
         String text = readString(Paths.get(file1));
         String fileExt = FilenameUtils.getExtension(file1);
         Map<String, Object> data1 = Parser.getMap(text, fileExt);
-
         text = readString(Paths.get(file2));
         fileExt = FilenameUtils.getExtension(file2);
         Map<String, Object> data2 = Parser.getMap(text, fileExt);
 
-        // сравниваем мапы и заносим результаты в список (ключ, значение, результат сравнения, значение2 при замене)
         List<Map<String, Object>> result = makeDif(data1, data2);
 
-        // преобразуем в строку нужного формата
         return Formatter.format(result, formatType);
     }
 
-    // метод без указания типа форматирования
     public static String generate(String filepath1, String filepath2) throws Exception {
         return generate(filepath1, filepath2, "stylish");
     }
@@ -40,29 +34,20 @@ public class Differ {
             throws Exception {
         List<Map<String, Object>> result = new ArrayList<>();
         Map<String, Object> current = new HashMap<>();
-
         Set<String> keys = new HashSet<>(data1.keySet());
         keys.addAll(data2.keySet());
         for (String key: keys) {
-            Boolean isData1Null = data1.get(key) == null;
-            Boolean isData2Null = data2.get(key) == null;
             Object value1 = data1.get(key);
             Object value2 = data2.get(key);
+            Boolean isValue1Null = value1 == null;
+            Boolean isValue2Null = value2 == null;
             if (!data1.containsKey(key)) {
-                if (isData2Null) {
-                    result.add(Map.of("key", key, "res", "+"));
-                } else {
-                    result.add(Map.of("key", key, "value", value2, "res", "+"));
-                }
+                putValue(result, key, "+", value2);
             } else {
                 if (!data2.containsKey(key)) {
-                    if (isData1Null) {
-                        result.add(Map.of("key", key, "res", "-"));
-                    } else {
-                        result.add(Map.of("key", key, "value", value1, "res", "-"));
-                    }
+                    putValue(result, key, "-", value1);
                 } else {
-                    if ((!isData2Null) && (!isData1Null)) {
+                    if ((!isValue2Null) && (!isValue1Null)) {
                         if (value2.equals(value1)) {
                             result.add(Map.of("key", key, "value", value1, "res", " "));
                         } else {
@@ -70,13 +55,13 @@ public class Differ {
                                     "value2", value2));
                         }
                     } else {
-                        if (isData2Null && isData1Null) {
+                        if (isValue2Null && isValue1Null) {
                             result.add(Map.of("key", key, "res", " "));
                         } else {
-                            if (isData1Null) {
+                            if (isValue1Null) {
                                 result.add(Map.of("key", key, "res", ">", "value2", value2));
                             }
-                            if (isData2Null) {
+                            if (isValue2Null) {
                                 result.add(Map.of("key", key, "value", value1, "res", ">"));
                             }
                         }
@@ -84,11 +69,17 @@ public class Differ {
                 }
             }
         }
-
-        // сортируем и возвращаем список
         return result.stream()
                 .sorted((item1, item2) -> item1.get("key").toString().compareTo(item2.get("key").toString()))
                 .collect(Collectors.toList());
+    }
+
+    private static void putValue(List<Map<String, Object>> result, String key, String res, Object value) {
+        if (value == null) {
+            result.add(Map.of("key", key, "res", res));
+        } else {
+            result.add(Map.of("key", key, "value", value, "res", res));
+        }
     }
 
 }

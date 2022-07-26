@@ -21,14 +21,14 @@ class App implements Callable<String> {
         if (filepath1 != null && filepath2 != null) {
             String result = Differ.generate(filepath1, filepath2, format);
             System.out.println(result);
+        } else {
+            System.out.println("Не указаны файлы для сравнения");
         }
         return "";
     }
     public static void main(String[] args) throws Exception {
-
         App app = new App();
         int exitCode = new CommandLine(app).execute(args);
-
     }
 
 }

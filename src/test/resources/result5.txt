@@ -1,0 +1,8 @@
+{
+  - follow: false
+    host: null
+  - proxy: null
+  - timeout: 50
+  + timeout: 20
+  + verbose: null
+}

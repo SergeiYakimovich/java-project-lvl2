@@ -10,19 +10,18 @@ import java.util.Map;
 public class Parser {
 
     public static Map<String, Object> getMap(String text, String fileExt) throws Exception {
-
-        // преобразуем в мапу в зависимости от типа файла
-        if (fileExt.equals("json"))  {
-            ObjectMapper mapper1 = new ObjectMapper();
-            return mapper1.readValue(text, new TypeReference<Map<String, Object>>() { });
-        } else {
-            if (fileExt.equals("yml") || fileExt.equals("yaml")) {
+        switch (fileExt) {
+            case "json":
+                ObjectMapper mapper1 = new ObjectMapper();
+                return mapper1.readValue(text, new TypeReference<Map<String, Object>>() { });
+            case "yml":
+            case "yaml":
                 YAMLMapper mapper2 = new YAMLMapper();
                 return mapper2.readValue(text, new TypeReference<Map<String, Object>>() { });
-            }
+            default:
+                System.out.println("Неверный тип файла " + fileExt);
+                return new HashMap<>();
         }
-        System.out.println("Неверный тип файла " + fileExt);
-        return new HashMap<>();
     }
 
 }

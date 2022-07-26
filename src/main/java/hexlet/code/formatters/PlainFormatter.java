@@ -23,7 +23,6 @@ public class PlainFormatter {
                             break;
                         default:
                     }
-
                 });
         return resultStr.toString().substring(0, resultStr.length() - 1);
     }
@@ -40,4 +39,5 @@ public class PlainFormatter {
             return "[complex value]";
         }
     }
+
 }
