@@ -14,18 +14,16 @@ import static java.nio.file.Files.readString;
 
 public class Differ {
 
-    public static final int JSON_TYPE = 1;
-    public static final int YML_TYPE = 2;
     public static String generate(String file1, String file2, String formatType) throws Exception {
 
         // считаваем данные из файлов и преобразуем в мапы
         String text = readString(Paths.get(file1));
-        int fileType = getFileType(file1);
-        Map<String, Object> data1 = Parser.getMap(text, fileType);
+        String fileExt = FilenameUtils.getExtension(file1);
+        Map<String, Object> data1 = Parser.getMap(text, fileExt);
 
         text = readString(Paths.get(file2));
-        fileType = getFileType(file2);
-        Map<String, Object> data2 = Parser.getMap(text, fileType);
+        fileExt = FilenameUtils.getExtension(file2);
+        Map<String, Object> data2 = Parser.getMap(text, fileExt);
 
         // сравниваем мапы и заносим результаты в список (ключ, значение, результат сравнения, значение2 при замене)
         List<Map<String, Object>> result = makeDif(data1, data2);
@@ -34,8 +32,11 @@ public class Differ {
         return Formatter.format(result, formatType);
     }
 
-
-    public static List<Map<String, Object>> makeDif(Map<String, Object> data1, Map<String, Object> data2)
+    // метод без указания типа форматирования
+    public static String generate(String filepath1, String filepath2) throws Exception {
+        return generate(filepath1, filepath2, "stylish");
+    }
+    private static List<Map<String, Object>> makeDif(Map<String, Object> data1, Map<String, Object> data2)
             throws Exception {
         List<Map<String, Object>> result = new ArrayList<>();
         Map<String, Object> current = new HashMap<>();
@@ -43,36 +44,40 @@ public class Differ {
         Set<String> keys = new HashSet<>(data1.keySet());
         keys.addAll(data2.keySet());
         for (String key: keys) {
+            Boolean isData1Null = data1.get(key) == null;
+            Boolean isData2Null = data2.get(key) == null;
+            Object value1 = data1.get(key);
+            Object value2 = data2.get(key);
             if (!data1.containsKey(key)) {
-                if (data2.get(key) == null) {
+                if (isData2Null) {
                     result.add(Map.of("key", key, "res", "+"));
                 } else {
-                    result.add(Map.of("key", key, "value", data2.get(key), "res", "+"));
+                    result.add(Map.of("key", key, "value", value2, "res", "+"));
                 }
             } else {
                 if (!data2.containsKey(key)) {
-                    if (data1.get(key) == null) {
+                    if (isData1Null) {
                         result.add(Map.of("key", key, "res", "-"));
                     } else {
-                        result.add(Map.of("key", key, "value", data1.get(key), "res", "-"));
+                        result.add(Map.of("key", key, "value", value1, "res", "-"));
                     }
                 } else {
-                    if ((data2.get(key) != null) && (data1.get(key) != null)) {
-                        if (data2.get(key).equals(data1.get(key))) {
-                            result.add(Map.of("key", key, "value", data1.get(key), "res", " "));
+                    if ((!isData2Null) && (!isData1Null)) {
+                        if (value2.equals(value1)) {
+                            result.add(Map.of("key", key, "value", value1, "res", " "));
                         } else {
-                            result.add(Map.of("key", key, "value", data1.get(key), "res", "-+",
-                                    "value2", data2.get(key)));
+                            result.add(Map.of("key", key, "value", value1, "res", ">",
+                                    "value2", value2));
                         }
                     } else {
-                        if ((data2.get(key) == null) && (data1.get(key) == null)) {
+                        if (isData2Null && isData1Null) {
                             result.add(Map.of("key", key, "res", " "));
                         } else {
-                            if (data1.get(key) == null) {
-                                result.add(Map.of("key", key, "res", "-+", "value2", data2.get(key)));
+                            if (isData1Null) {
+                                result.add(Map.of("key", key, "res", ">", "value2", value2));
                             }
-                            if (data2.get(key) == null) {
-                                result.add(Map.of("key", key, "value", data1.get(key), "res", "-+"));
+                            if (isData2Null) {
+                                result.add(Map.of("key", key, "value", value1, "res", ">"));
                             }
                         }
                     }
@@ -84,24 +89,6 @@ public class Differ {
         return result.stream()
                 .sorted((item1, item2) -> item1.get("key").toString().compareTo(item2.get("key").toString()))
                 .collect(Collectors.toList());
-    }
-
-    public static int getFileType(String fileName) {
-
-        String fileExt = FilenameUtils.getExtension(fileName);
-        if (fileExt.equals("json"))  {
-            return JSON_TYPE;
-        } else {
-            if (fileExt.equals("yml") || fileExt.equals("yaml")) {
-                return YML_TYPE;
-            }
-        }
-        return 0;
-    }
-
-    // метод без указания типа форматирования
-    public static String generate(String filepath1, String filepath2) throws Exception {
-        return generate(filepath1, filepath2, "stylish");
     }
 
 }

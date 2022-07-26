@@ -48,17 +48,17 @@ public class TestDiffer {
         String file2 = "src/test/resources/file2_v2.json";
         var result = Differ.generate(file1, file2, "json");
         var expected = "[{\"key\":\"chars1\",\"res\":\" \",\"value\":[\"a\",\"b\",\"c\"]},"
-                + "{\"key\":\"chars2\",\"res\":\"-+\",\"value\":[\"d\",\"e\",\"f\"],\"value2\":false},"
-                + "{\"key\":\"checked\",\"res\":\"-+\",\"value\":false,\"value2\":true},{\"key\":\"default\","
-                + "\"res\":\"-+\",\"value2\":[\"value1\",\"value2\"]},{\"key\":\"id\",\"res\":\"-+\",\"value\""
+                + "{\"key\":\"chars2\",\"res\":\">\",\"value\":[\"d\",\"e\",\"f\"],\"value2\":false},"
+                + "{\"key\":\"checked\",\"res\":\">\",\"value\":false,\"value2\":true},{\"key\":\"default\","
+                + "\"res\":\">\",\"value2\":[\"value1\",\"value2\"]},{\"key\":\"id\",\"res\":\">\",\"value\""
                 + ":45},{\"key\":\"key1\",\"res\":\"-\",\"value\":\"value1\"},{\"key\":\"key2\",\"res\":\"+\","
                 + "\"value\":\"value2\"},{\"key\":\"numbers1\",\"res\":\" \",\"value\":[1,2,3,4]},{\"key\":\""
-                + "numbers2\",\"res\":\"-+\",\"value\":[2,3,4,5],\"value2\":[22,33,44,55]},{\"key\":\"numbers3\","
+                + "numbers2\",\"res\":\">\",\"value\":[2,3,4,5],\"value2\":[22,33,44,55]},{\"key\":\"numbers3\","
                 + "\"res\":\"-\",\"value\":[3,4,5]},{\"key\":\"numbers4\",\"res\":\"+\",\"value\":[4,5,6]},"
                 + "{\"key\":\"obj1\",\"res\":\"+\",\"value\":{\"isNested\":true,\"nestedKey\":\"value\"}},"
-                + "{\"key\":\"setting1\",\"res\":\"-+\",\"value\":\"Some value\",\"value2\":\"Another value\"},"
-                + "{\"key\":\"setting2\",\"res\":\"-+\",\"value\":200,\"value2\":300},{\"key\":\"setting3\","
-                + "\"res\":\"-+\",\"value\":true,\"value2\":\"none\"}]";
+                + "{\"key\":\"setting1\",\"res\":\">\",\"value\":\"Some value\",\"value2\":\"Another value\"},"
+                + "{\"key\":\"setting2\",\"res\":\">\",\"value\":200,\"value2\":300},{\"key\":\"setting3\","
+                + "\"res\":\">\",\"value\":true,\"value2\":\"none\"}]";
         assertThat(result).isEqualTo(expected);
     }
     @Test
@@ -76,8 +76,8 @@ public class TestDiffer {
         String file1 = "src/test/resources/file1_v1.yaml";
         String file2 = "src/test/resources/file2_v1.yaml";
         var result = Differ.generate(file1, file2);
-        var expected = "{\n" + "  - follow: false\n" + "    host: null\n" + "  - proxy: 123.234.53.22\n"
-                + "  - timeout: 50\n" + "  + timeout: 20\n" + "  + verbose: true\n" + "}";
+        var expected = "{\n" + "  - follow: false\n" + "    host: null\n" + "  - proxy: null\n"
+                + "  - timeout: 50\n" + "  + timeout: 20\n" + "  + verbose: null\n" + "}";
         assertThat(result).isEqualTo(expected);
     }
 

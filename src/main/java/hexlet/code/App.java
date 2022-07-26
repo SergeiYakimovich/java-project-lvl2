@@ -14,24 +14,12 @@ class App implements Callable<String> {
 
     @CommandLine.Option(names = { "-f", "--format" }, defaultValue = "stylish",
             description = "output format [default: ${DEFAULT-VALUE}]")
-    private Format format = Format.stylish;
-    /*@CommandLine.Option(names = { "-h", "--help" }, usageHelp = true,
-            description = "Show this help message and exit.")
-    private boolean helpRequested;*/
-    @CommandLine.Option(names = {"-V", "--version"}, versionHelp = true,
-            description = "Print version information and exit.")
-    private boolean versionHelpRequested;
+    private String format = "stylish";
 
-    enum Format {
-        stylish,
-        plain,
-        json,
-    }
     @Override
     public String call() throws Exception {
-
         if (filepath1 != null && filepath2 != null) {
-            String result = Differ.generate(filepath1, filepath2, format.toString());
+            String result = Differ.generate(filepath1, filepath2, format);
             System.out.println(result);
         }
         return "";
