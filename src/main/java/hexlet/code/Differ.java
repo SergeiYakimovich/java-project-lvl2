@@ -39,32 +39,16 @@ public class Differ {
         for (String key: keys) {
             Object value1 = data1.get(key);
             Object value2 = data2.get(key);
-            Boolean isValue1Null = value1 == null;
-            Boolean isValue2Null = value2 == null;
             if (!data1.containsKey(key)) {
                 putValue(result, key, "+", value2);
             } else {
                 if (!data2.containsKey(key)) {
                     putValue(result, key, "-", value1);
                 } else {
-                    if ((!isValue2Null) && (!isValue1Null)) {
-                        if (value2.equals(value1)) {
-                            result.add(Map.of("key", key, "value", value1, "res", " "));
-                        } else {
-                            result.add(Map.of("key", key, "value", value1, "res", ">",
-                                    "value2", value2));
-                        }
+                    if (value2 != null && value1 != null) {
+                        putTwoValuesNoNull(result, key, value1, value2);
                     } else {
-                        if (isValue2Null && isValue1Null) {
-                            result.add(Map.of("key", key, "res", " "));
-                        } else {
-                            if (isValue1Null) {
-                                result.add(Map.of("key", key, "res", ">", "value2", value2));
-                            }
-                            if (isValue2Null) {
-                                result.add(Map.of("key", key, "value", value1, "res", ">"));
-                            }
-                        }
+                        putTwoValuesWithNull(result, key, value1, value2);
                     }
                 }
             }
@@ -79,6 +63,30 @@ public class Differ {
             result.add(Map.of("key", key, "res", res));
         } else {
             result.add(Map.of("key", key, "value", value, "res", res));
+        }
+    }
+
+    private static void putTwoValuesNoNull(List<Map<String, Object>> result, String key,
+                                           Object value1, Object value2) {
+        if (value2.equals(value1)) {
+            result.add(Map.of("key", key, "value", value1, "res", " "));
+        } else {
+            result.add(Map.of("key", key, "value", value1, "res", ">",
+                    "value2", value2));
+        }
+    }
+
+    private static void putTwoValuesWithNull(List<Map<String, Object>> result, String key,
+                                             Object value1, Object value2) {
+        if (value2 == null && value1 == null) {
+            result.add(Map.of("key", key, "res", " "));
+        } else {
+            if (value1 == null) {
+                result.add(Map.of("key", key, "res", ">", "value2", value2));
+            }
+            if (value2 == null) {
+                result.add(Map.of("key", key, "value", value1, "res", ">"));
+            }
         }
     }
 
