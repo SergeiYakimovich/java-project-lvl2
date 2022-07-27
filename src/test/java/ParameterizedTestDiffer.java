@@ -16,7 +16,7 @@ public class ParameterizedTestDiffer {
 
     @ParameterizedTest
     @MethodSource
-    void testWithMethodSource(String file1, String file2, String resFile, String formatType)
+    final void testWithMethodSource(String file1, String file2, String resFile, String formatType)
             throws Exception {
         String result = Differ.generate(file1, file2, formatType);
         String expected = readString(Paths.get(resFile), StandardCharsets.US_ASCII);
