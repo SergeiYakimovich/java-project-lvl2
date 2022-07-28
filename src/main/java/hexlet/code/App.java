@@ -26,6 +26,7 @@ class App implements Callable<String> {
         }
         return "";
     }
+
     public static void main(String[] args) throws Exception {
         App app = new App();
         int exitCode = new CommandLine(app).execute(args);

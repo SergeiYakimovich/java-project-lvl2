@@ -19,7 +19,7 @@ public class Parser {
                 YAMLMapper mapper2 = new YAMLMapper();
                 return mapper2.readValue(text, new TypeReference<Map<String, Object>>() { });
             default:
-                System.out.println("Неверный тип файла " + fileExt);
+                System.out.println("Wrong file type : " + fileExt);
                 return new HashMap<>();
         }
     }

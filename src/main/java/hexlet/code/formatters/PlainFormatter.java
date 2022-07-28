@@ -26,6 +26,7 @@ public class PlainFormatter {
                 });
         return resultStr.toString().substring(0, resultStr.length() - 1);
     }
+
     private static String modifyValue(Object o) {
         if (o == null) {
             return "null";
