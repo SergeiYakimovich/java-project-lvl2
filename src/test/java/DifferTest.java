@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -97,6 +98,14 @@ public class DifferTest {
         List<Map<String, Object>> list = new ArrayList<>();
         String result = Formatter.format(list, "json");
         assertThat(result).isEqualTo("");
+    }
+
+    @Test
+    public void testMakeDifEmptyMaps() throws Exception {
+        Map<String, Object> data1 = new HashMap<>();
+        Map<String, Object> data2 = new HashMap<>();
+        List<Map<String, Object>> list = MakeList.makeDif(data1, data2);
+        assertThat(list.size()).isEqualTo(0);
     }
 
 }

@@ -11,15 +11,25 @@ public class PlainFormatter {
                 .forEach(item -> {
                     switch ((String) item.get("res")) {
                         case ">" :
-                            resultStr.append("Property '" + item.get("key") + "' was updated. From "
-                                    + modifyValue(item.get("value")) + " to " + modifyValue(item.get("value2")) + "\n");
+                            resultStr.append("Property '");
+                            resultStr.append(item.get("key"));
+                            resultStr.append("' was updated. From ");
+                            resultStr.append(modifyValue(item.get("value")));
+                            resultStr.append(" to ");
+                            resultStr.append(modifyValue(item.get("value2")));
+                            resultStr.append("\n");
                             break;
                         case "+" :
-                            resultStr.append("Property '" + item.get("key") + "' was added with value: "
-                                    + modifyValue(item.get("value")) + "\n");
+                            resultStr.append("Property '");
+                            resultStr.append(item.get("key"));
+                            resultStr.append("' was added with value: ");
+                            resultStr.append(modifyValue(item.get("value")));
+                            resultStr.append("\n");
                             break;
                         case "-" :
-                            resultStr.append("Property '" + item.get("key") + "' was removed" + "\n");
+                            resultStr.append("Property '");
+                            resultStr.append(item.get("key"));
+                            resultStr.append("' was removed\n");
                             break;
                         default:
                     }
